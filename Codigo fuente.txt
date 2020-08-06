@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #include <iostream>
 #include<time.h>
 #include<graphics.h>
@@ -490,3 +491,497 @@ Boton::~Boton()
 {
     //dtor
 }
+=======
+#include <iostream>
+#include<time.h>
+#include<graphics.h>
+#include<Juego.h>
+
+using namespace std;
+
+int main()
+{
+    Juego * juego = new Juego();
+    juego->jugar();
+
+    return 0;
+}
+------------------------------------------
+#ifndef JUEGO_H
+#define JUEGO_H
+#include "Carta.h"
+
+
+class Juego
+{
+     private:
+
+         char *p[29]={"imagenes\\figura0.jpg",
+            "imagenes\\margehomer.jpg",
+            "imagenes\\figura02.jpg",
+            "imagenes\\figura03.jpg",
+            "imagenes\\figura04.jpg",
+            "imagenes\\figura05.jpg",
+            "imagenes\\figura06.jpg",
+            "imagenes\\figura07.jpg",
+            "imagenes\\figura08.jpg",
+            "imagenes\\figura09.jpg",
+            "imagenes\\figura10.jpg",
+            "imagenes\\figura11.jpg",
+            "imagenes\\figura12.jpg",
+            "imagenes\\figura13.jpg",
+            "imagenes\\figura14.jpg",
+            "imagenes\\figura15.jpg",
+            "imagenes\\num0.jpg", //16
+            "imagenes\\num1.jpg",
+            "imagenes\\num2.jpg",
+            "imagenes\\num3.jpg",
+            "imagenes\\num4.jpg",
+            "imagenes\\num5.jpg",
+            "imagenes\\num6.jpg",
+            "imagenes\\num7.jpg",
+            "imagenes\\num8.jpg",
+            "imagenes\\num9.jpg",
+            "imagenes\\errores.jpg", //26
+            "imagenes\\homerWin.jpg",
+            "imagenes\\fondoNegro.jpg"};
+
+        char *w[4]={"wav\\me_vuelvo_chango.wav",
+            "wav\\nerd.wav",
+            "wav\\los_simpson.wav",
+            "wav\\doh.wav"};
+//            "wav\\audio5.wav",
+//            "wav\\audio6.wav",
+//            "wav\\audio7.wav",
+//            "wav\\audio8.wav",
+//            "wav\\audio9.wav"};
+
+    public:
+        void generar(Carta *c);
+        int leer (Carta *c);
+        int invertir (Carta *c);
+        void buscar_id(Carta *c, int p);
+        void jugar();
+        Juego();
+        virtual ~Juego();
+
+    protected:
+
+
+};
+
+#endif // JUEGO_H
+------------------------------------------------
+#ifndef CARTA_H
+#define CARTA_H
+#include "Boton.h"
+#include<time.h>
+
+class Carta: public Boton
+{
+
+    private:
+        bool bandera;
+        int id;
+
+
+    public:
+
+
+        int mostrar_id();
+        void asignar_id( int d);
+        void probar_id( int d);
+        void cargar_imagen(char *p[16]);
+        int voltear(char *p[16]);
+        void setId(int id);
+        int getId();
+        void setBandera(int bandera);
+        int getBandera();
+        Carta();
+        virtual ~Carta();
+
+    protected:
+
+
+};
+
+#endif // CARTA_H
+
+---------------------------------------
+#ifndef BOTON_H
+#define BOTON_H
+
+
+class Boton
+{
+    private:
+        int xi,xf,yi,yf;
+    public:
+        void posicion (int a,int b, int c, int d);
+        int prueba(char * nom);
+        void estado(char *nom);
+        Boton();
+        virtual ~Boton();
+
+    protected:
+
+    private:
+};
+
+#endif // BOTON_H
+-------------------------------------------
+#include "Juego.h"
+#include "Carta.h"
+#include<time.h>
+#include<stdlib.h>
+#include<iostream>
+#include<graphics.h>
+#include<winbgim.h>
+#include<windows.h>
+#include<MMSystem.h>
+using namespace std;
+Juego::Juego()
+{
+    //ctor
+}
+void Juego::generar(Carta *c)
+{
+    int v,b;
+    for(int p=0;p<30;)
+    {
+        v=1+rand()%30;
+        b=1;
+        for (int t=0;t<30;t++)
+        {
+            if(v==c[t].mostrar_id())
+            {
+                b=0;
+                break;
+            }
+        }
+        if(b)
+        {
+            b=1;
+            c[p].asignar_id(v);
+            p++;
+        }
+    }
+    for(int t=0 ; t<30 ; t++)
+    {
+        if(c[t].mostrar_id()>15)
+        {
+            c[t].asignar_id(c[t].mostrar_id() - 15);
+        }
+    }
+
+}
+int Juego::leer(Carta *c)
+{
+    int a;
+    while(true)
+    {
+        for(int t=0;t<30;t++)
+        {
+            a=c[t].voltear(p);
+            if(a!=0)
+            {
+                return a;
+            }
+        }
+    }
+
+}
+int Juego::invertir(Carta *c)
+{
+     for(int t=0;t<30;t++)
+     {
+         c[t].cargar_imagen(p);
+     }
+}
+void Juego::buscar_id(Carta *c, int p)
+{
+     for(int t=0;t<30;t++)
+     {
+         c[t].probar_id(p);
+     }
+}
+void Juego::jugar()
+{
+
+    srand (time(NULL));
+    initwindow (800,800,"Juego de Memoria",200,100);
+    int a,b,cont=0,cantidadErrores=0;
+
+
+    while(true)
+    {
+
+        readimagefile(p[28],0,0,800,800);
+        readimagefile(p[26],500,10,700,50);
+        readimagefile(p[16],550,60,650,200);
+        cantidadErrores = 0;
+        cont=0;
+        FreeConsole();
+        Carta c[6][5];
+        generar(c[0]);
+
+        for (int t=0,x=10;t<6;t++,x+=75)
+        for(int p=0,y=10;p<5;p++,y+=95)
+        {
+            c[t][p].posicion(x,y,x+70,y+90);
+            c[t][p].cargar_imagen(this->p);
+        }
+        while(cantidadErrores < 30 && cont < 15)
+        {
+            a=leer(c[0]);
+            b=leer(c[0]);
+            if(a-b==0)
+            {
+                cont++;
+              PlaySound(w[1],NULL,SND_ASYNC);
+            }
+            else
+            {
+
+              buscar_id(&c[0][0],a);
+              buscar_id(&c[0][0],b);
+              PlaySound(w[3],NULL,SND_ASYNC);
+              cantidadErrores++;
+              switch(cantidadErrores)
+              {
+                case 1:
+                    readimagefile(p[17],550,60,650,200);
+                    break;
+                case 2:
+                    readimagefile(p[18],550,60,650,200);
+                    break;
+                case 3:
+                    readimagefile(p[19],550,60,650,200);
+                    break;
+                case 4:
+                    readimagefile(p[20],550,60,650,200);
+                    break;
+                case 5:
+                    readimagefile(p[21],550,60,650,200);
+                    break;
+                case 6:
+                    readimagefile(p[22],550,60,650,200);
+                    break;
+                case 7:
+                    readimagefile(p[23],550,60,650,200);
+                    break;
+                case 8:
+                    readimagefile(p[24],550,60,650,200);
+                    break;
+                case 9:
+                    readimagefile(p[25],550,60,650,200);
+                    break;
+                case 10:
+                    readimagefile(p[17],500,60,600,200);
+                    readimagefile(p[16],600,60,700,200);
+                    break;
+                case 11:
+                    readimagefile(p[17],500,60,600,200);
+                    readimagefile(p[17],600,60,700,200);
+                    break;
+                case 12:
+                    readimagefile(p[17],500,60,600,200);
+                    readimagefile(p[18],600,60,700,200);
+                    break;
+                case 13:
+                    readimagefile(p[17],500,60,600,200);
+                    readimagefile(p[19],600,60,700,200);
+                    break;
+                case 14:
+                    readimagefile(p[17],500,60,600,200);
+                    readimagefile(p[20],600,60,700,200);
+                    break;
+                case 15:
+                    readimagefile(p[17],500,60,600,200);
+                    readimagefile(p[21],600,60,700,200);
+                    break;
+                case 16:
+                    readimagefile(p[17],500,60,600,200);
+                    readimagefile(p[22],600,60,700,200);
+                    break;
+                case 17:
+                    readimagefile(p[17],500,60,600,200);
+                    readimagefile(p[23],600,60,700,200);
+                    break;
+                case 18:
+                    readimagefile(p[17],500,60,600,200);
+                    readimagefile(p[24],600,60,700,200);
+                    break;
+                case 19:
+                    readimagefile(p[17],500,60,600,200);
+                    readimagefile(p[25],600,60,700,200);
+                    break;
+                case 20:
+                    readimagefile(p[18],500,60,600,200);
+                    readimagefile(p[16],600,60,700,200);
+                    break;
+                case 21:
+                    readimagefile(p[18],500,60,600,200);
+                    readimagefile(p[17],600,60,700,200);
+                    break;
+                case 22:
+                    readimagefile(p[18],500,60,600,200);
+                    readimagefile(p[18],600,60,700,200);
+                    break;
+                case 23:
+                    readimagefile(p[18],500,60,600,200);
+                    readimagefile(p[19],600,60,700,200);
+                    break;
+                case 24:
+                    readimagefile(p[18],500,60,600,200);
+                    readimagefile(p[20],600,60,700,200);
+                    break;
+                case 25:
+                    readimagefile(p[18],500,60,600,200);
+                    readimagefile(p[21],600,60,700,200);
+                    break;
+                case 26:
+                    readimagefile(p[18],500,60,600,200);
+                    readimagefile(p[22],600,60,700,200);
+                    break;
+                case 27:
+                    readimagefile(p[18],500,60,600,200);
+                    readimagefile(p[23],600,60,700,200);
+                    break;
+                case 28:
+                    readimagefile(p[18],500,60,600,200);
+                    readimagefile(p[24],600,60,700,200);
+                    break;
+                case 29:
+                    readimagefile(p[18],500,60,600,200);
+                    readimagefile(p[25],600,60,700,200);
+                    break;
+                default:
+                    break;
+              }
+            }
+            Sleep(400);
+            invertir(c[0]);
+            if(cont==15)
+            {
+                readimagefile(p[27],300,10,731,620);
+                PlaySound(w[2],NULL,SND_ASYNC);
+                getch();
+                clearmouseclick(WM_LBUTTONDOWN);
+                PlaySound(NULL,NULL,0);
+            }
+        }
+        if(cantidadErrores == 30)
+        {
+            PlaySound(w[0],NULL,SND_ASYNC);
+        }
+    }
+}
+
+Juego::~Juego()
+{
+    //dtor
+}
+-------------------------------
+
+#include "Carta.h"
+
+Carta::Carta()
+{
+   id = 0;
+   bandera = 0;
+}
+
+void Carta::asignar_id(int d)
+{
+    id = d;
+}
+int Carta::mostrar_id()
+{
+    return id;
+}
+void Carta::probar_id(int d)
+{
+    if(d==id)
+    {
+        bandera=0;
+    }
+}
+ void Carta::cargar_imagen(char *p[16])
+{
+    if (bandera!=1)
+    {
+        estado(p[0]);
+    }
+}
+int Carta::voltear(char *p[16])
+{
+    if (bandera!=1&&prueba(p[id]))
+    {
+      bandera=1;
+      return id;
+    }
+    else
+        return 0;
+}
+void Carta::setBandera(int bandera)
+{
+    this->bandera = bandera;
+}
+int Carta::getBandera()
+{
+    return this->bandera;
+}
+void Carta::setId(int id)
+{
+    this->id = id;
+}
+int Carta::getId()
+{
+    return this->id;
+}
+
+
+Carta::~Carta()
+{
+    //dtor
+}
+----------------------------------
+#include "Boton.h"
+#include<graphics.h>
+//#define WM_BUTTONDOWN
+#include<winuser.h>
+Boton::Boton()
+{
+    //ctor
+}
+void Boton::posicion(int a, int b,int c, int d)
+{
+    xi=a;
+    xf=c;
+    yi=b;
+    yf=d;
+}
+
+
+ int Boton::prueba(char *nom)
+{
+    if(mousex()>xi&&mousex()<xf&&mousey()>yi&&mousey()<yf&&ismouseclick(WM_LBUTTONDOWN))
+    {
+        clearmouseclick(WM_LBUTTONDOWN);
+        readimagefile (nom,xi,yi,xf,yf);
+        return 1;
+    }
+    else{return 0;}
+}
+
+
+ void Boton::estado(char *nom)
+{
+    readimagefile(nom,xi,yi,xf,yf);
+}
+Boton::~Boton()
+{
+    //dtor
+}
+>>>>>>> 65083a72e4743e0d9d9ca1a411651d4f826a99c8
