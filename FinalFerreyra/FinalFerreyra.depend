@@ -1,0 +1,102 @@
+# depslib dependency file v1.0
+1582404288 source:f:\descargas\finalferreyra\carta.cpp
+	"Carta.h"
+
+1582403877 f:\descargas\finalferreyra\carta.h
+	"Boton.h"
+	<time.h>
+
+1582403888 f:\descargas\finalferreyra\boton.h
+
+1582405445 source:f:\descargas\finalferreyra\boton.cpp
+	"Boton.h"
+	<graphics.h>
+	<winuser.h>
+
+1582405566 source:f:\descargas\finalferreyra\main.cpp
+	<iostream>
+	<time.h>
+	<graphics.h>
+	<Juego.h>
+
+1582406704 f:\descargas\finalferreyra\juego.h
+	<Carta.h>
+
+1582405965 source:f:\descargas\finalferreyra\juego.cpp
+	"Juego.h"
+	<Carta.h>
+	<time.h>
+	<stdlib.h>
+	<graphics.h>
+	<winbgim.h>
+	<windows.h>
+	<mmsystem.h>
+
+1596671940 source:c:\users\intel\desktop\finalferreyra\boton.cpp
+	"Boton.h"
+	<graphics.h>
+	<winuser.h>
+
+1596736226 c:\users\intel\desktop\finalferreyra\boton.h
+
+1582888536 source:c:\users\intel\desktop\finalferreyra\carta.cpp
+	"Carta.h"
+
+1596736252 c:\users\intel\desktop\finalferreyra\carta.h
+	"Boton.h"
+	<time.h>
+
+1582926713 source:c:\users\intel\desktop\finalferreyra\juego.cpp
+	"Juego.h"
+	"Carta.h"
+	<time.h>
+	<stdlib.h>
+	<iostream>
+	<graphics.h>
+	<winbgim.h>
+	<windows.h>
+	<MMSystem.h>
+
+1582924688 c:\users\intel\desktop\finalferreyra\juego.h
+	"Carta.h"
+
+1582917506 source:c:\users\intel\desktop\finalferreyra\main.cpp
+	<iostream>
+	<time.h>
+	<graphics.h>
+	<Juego.h>
+
+1582888536 source:c:\users\nick\desktop\finalferreyra\boton.cpp
+	"Boton.h"
+	<graphics.h>
+	<winuser.h>
+
+1582888536 c:\users\nick\desktop\finalferreyra\boton.h
+
+1582888536 source:c:\users\nick\desktop\finalferreyra\carta.cpp
+	"Carta.h"
+
+1582888536 c:\users\nick\desktop\finalferreyra\carta.h
+	"Boton.h"
+	<time.h>
+
+1582888538 source:c:\users\nick\desktop\finalferreyra\juego.cpp
+	"Juego.h"
+	"Carta.h"
+	<time.h>
+	<stdlib.h>
+	<iostream>
+	<graphics.h>
+	<winbgim.h>
+	<windows.h>
+	<MMSystem.h>
+
+1582924688 c:\users\nick\desktop\finalferreyra\juego.h
+	"Carta.h"
+
+1582917506 source:c:\users\nick\desktop\finalferreyra\main.cpp
+	<iostream>
+	<time.h>
+	<graphics.h>
+	<Juego.h>
+
